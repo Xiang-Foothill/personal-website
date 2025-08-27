@@ -25,31 +25,88 @@
     h2 {
       margin-top: 0;
     }
-    .photo {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: #ccc;
-      margin: 1rem auto;
+    
+    .intro {
+    display: flex;               
+    align-items: center;         
+    justify-content: space-between; 
+    gap: 2rem;                   
     }
+
+    .info {
+    flex: 1;                     
+    }
+
+    .photo {
+    max-width: 200px;   
+    height: auto;      
+    }
+
+    .project {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  background: #fafafa;
+}
+
+    .project h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+    .project video,
+    .project img {
+  max-width: 100%;  
+  height: auto;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  display: block;
+}
+
   </style>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <h1>Yuxiang Liu</h1>
-    <p>University of California, Berkeley</p>
-    <p>Bachelor of Computer Science, BA</p>
-    <p>liu.yx@berkeley.edu</p>
-    <p>510-977-3657</p>
-    <img src="myphoto.jpg" alt="Photo of Yuxiang Liu" class="photo">
+    <div class="intro">
+      <!-- Left side: text -->
+      <div class="info">
+        <h1>Yuxiang Liu</h1>
+        <p>University of California, Berkeley</p>
+        <p>Bachelor of Computer Science, BA</p>
+        <p>liu.yx@berkeley.edu</p>
+        <p>510-977-3657</p>
+      </div>
+  
+      <!-- Right side: image -->
+      <img src="myphoto.jpg" alt="Photo of Yuxiang Liu" class="photo">
+    </div>
   </header>
 
   <!-- Projects -->
   <section id="projects">
     <h2>Projects</h2>
-    <p>[Empty for now]</p>
+  
+    <!-- Project 1 -->
+    <div class="project">
+        <h3>VisionSE</h3>
+        <p>
+          VisionSE is an open-sourced library of a pure-vision estimator for the
+          motion state of an ego-vehicle. By applying optical flow measurements to
+          consecutive image frames, such an estimator can perform motion-state
+          estimations relying only on the input RGB data from a windshield camera
+          attached to the vehicle.
+        </p>
+        <video controls>
+          <source src="video1.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
+  
+    <!-- More projects can be added below in the same format -->
   </section>
+  
 
   <!-- Research Experience -->
   <section id="research">
