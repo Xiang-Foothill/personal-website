@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Make AI Your Best Research Assistant — Blog</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; line-height: 1.65; color: #222; }
+    main { max-width: 820px; margin: auto; padding: 2rem; }
+    a { color: #0a66c2; }
+    header { background:#f4f4f4; padding:1rem 2rem; }
+    header a { text-decoration:none; color:#0a66c2; }
+    h1 { margin-top:0.5rem; }
+    .byline { color:#666; font-size:0.9rem; margin-bottom:1rem; }
+    blockquote { margin:1rem 0; padding:0.5rem 1rem; border-left:3px solid #0a66c2; background:#f7fbff; }
+    code, pre { background:#f6f8fa; padding:0.2rem 0.4rem; border-radius:4px; }
+    .refs { margin-top:2rem; font-size:0.95rem; }
+    .refs li { margin:0.4rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← Back to Home</a>
+    <h1>Make AI Your Best Research Assistant</h1>
+    <div class="byline">October 2025 • Literature Review, LLMs</div>
+  </header>
+  <main>
+    <p>
+      Large language models (LLMs) have rapidly evolved into capable research assistants.  
+      This post outlines a concise workflow for using them effectively while maintaining scholarly rigor.
+    </p>
+
+    <h2>0) Build a Conceptual Framework First</h2>
+    <p>
+      When entering an unfamiliar field, begin by mapping its core concepts and their relationships.  
+      Converse with an LLM to extract keywords, generate analogies, and clarify how ideas fit together.  
+      As ATLAS.ti defines it, a conceptual framework “explains the main things to be studied — the key factors, variables, or constructs — and any presumed relationships among them.”  
+      This map doesn’t need to be perfect — it simply anchors your subsequent reading and analysis.
+    </p>
+
+    <h2>1) Keyword Search</h2>
+    <p>
+      Precise, domain-specific keywords lead to better results. Behind the scenes, 
+      <em>Retrieval-Augmented Generation (RAG)</em> (<a href="https://arxiv.org/abs/2005.11401" target="_blank">Lewis et al., 2020</a>) formalizes this logic: 
+      your query is embedded into a vector space, relevant documents are retrieved and ranked, and the LLM then synthesizes from the top results. 
+      Think of keywords as coordinates — the more precise they are, the more accurately the AI navigates the research landscape.
+    </p>
+
+    <h2>2) Plan-Based Prompts</h2>
+    <p>
+      Provide structure before you ask for content. 
+      In <em>LitLLMs</em> (Agarwal et al., 2024), models that first draft an outline and then fill each section reduce hallucinated references by ≈25 %. 
+      Try: 
+    </p>
+    <blockquote>
+      “Create an outline summarizing recent work on [topic], grouped by methodology and year. Then expand each section using verified sources.”
+    </blockquote>
+    <p>
+      This two-step prompt yields coherence and factual grounding while keeping you in control of the structure.
+    </p>
+
+    <h2>3) Maintain a Professional Tone</h2>
+    <p>
+      Politeness in prompts may seem irrelevant, but clear and courteous requests tend to produce more balanced outputs. 
+      As <em>Scientific American</em> (2024) notes, users who phrase queries politely often receive better-organized answers. 
+      Treat your LLM dialogue as professional communication with a collaborative assistant.
+    </p>
+
+    <h2>Conclusion</h2>
+    <p>
+      AI won’t replace scholarly judgment — it amplifies it. Start with a conceptual map, refine your keywords, and guide the model through structured, respectful prompts. 
+      Used critically, LLMs become valuable partners for faster, deeper literature research.
+    </p>
+
+    <h3>References</h3>
+    <ul class="refs">
+      <li>ATLAS.ti. (n.d.). <em>What is a conceptual framework in qualitative research?</em> https://atlasti.com/guides/qualitative-research-guide-part-1/conceptual-framework</li>
+      <li>Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., … & Riedel, S. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP</em>. NeurIPS.</li>
+      <li>Agarwal, S., Ma, R., Gupta, N., & Narayan-Chen, A. (2024). <em>LitLLMs: LLMs for Literature Review — Are We There Yet?</em> arXiv:2412.15249.</li>
+      <li><em>Scientific American</em>. (2024). Should you be nice to AI chatbots such as ChatGPT?</li>
+    </ul>
+  </main>
+</body>
+</html>

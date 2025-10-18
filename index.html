@@ -111,6 +111,20 @@
   width: 1000px;     /* make image larger */
   height: auto;     /* keep aspect ratio */
 }
+  
+/* --- Blog styles (added) --- */
+#blog { padding: 2rem; max-width: 900px; margin: auto; }
+.blog-toolbar { display:flex; gap:1rem; align-items:center; margin:0.5rem 0 1rem 0; flex-wrap:wrap; }
+.blog-search { flex:1; min-width:240px; padding:0.5rem 0.75rem; border:1px solid #ccc; border-radius:6px; font-size:0.95rem; }
+.posts { display:grid; grid-template-columns:1fr; gap:1rem; }
+@media (min-width: 800px) { .posts { grid-template-columns:1fr 1fr; } }
+.post { border:1px solid #e3e3e3; border-radius:8px; padding:1rem; background:#fff; transition: box-shadow .2s ease; }
+.post:hover { box-shadow:0 4px 16px rgba(0,0,0,0.06); }
+.post h3 { margin:0 0 .25rem 0; }
+.post .meta { color:#666; font-size:.85rem; margin-bottom:.5rem; }
+.post a.btn { display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0a66c2; color:#fff; text-decoration:none; border-radius:5px; font-size:.9rem; }
+.post a.btn:hover { background:#094f96; }
+
   </style>
 </head>
 <body>
@@ -187,7 +201,7 @@
           <div class="project-text">
             <h3>Task-Conditional Adversarial Learning (In progress)</h3>
             <p>
-              An adversarial learning framework for the vision-domain adaptation of end-to-end model. Our method under much stricter information-assuption outperforms the
+              An adversarial learning framework for the vision-domain adaptation of end-to-end model. Our method under much stricter information-assumption outperforms the
               state-of-the-art methods with almost perfect information availability. Such an work is still in progress and it is expected to be published by the end of 2025.
             </p>
           </div>
@@ -201,9 +215,49 @@
     <p>More works to be done!</p>
   </section>
 
+  
+  <!-- Blog -->
+  <section id="blog">
+    <h2>Blog</h2>
+    <div class="blog-toolbar">
+      <input id="blogSearch" class="blog-search" type="search" placeholder="Search posts by keyword… (e.g., RAG, literature review, domain adaptation)" oninput="filterPosts()">
+    </div>
+    <div id="posts" class="posts">
+      <article class="post" data-tags="ai,llm,literature review,rag,workflow">
+        <h3>Make AI Your Best Research Assistant</h3>
+        <div class="meta">October 2025 • Literature Review, LLMs</div>
+        <p>
+          A practical recipe for using LLMs to accelerate literature reviews: build a conceptual framework, craft sharp keywords,
+          use plan-based prompts, and keep your tone professional. Includes notes on RAG and ranking.
+        </p>
+        <a class="btn" href="blog/make-ai-your-best-assistant.html">Read post</a>
+      </article>
+      <article class="post" data-tags="robotics,domain adaptation,imitation learning,vision,ml">
+        <h3>Notes on Task-Conditional Adversarial Learning</h3>
+        <div class="meta">Coming soon • Research Notes</div>
+        <p>Early reflections on aligning latent spaces across visual domains for end-to-end imitation learning.</p>
+        <a class="btn" href="#">Coming soon</a>
+      </article>
+    </div>
+  </section>
+
+
   <!-- Footer -->
   <footer style="text-align:center; padding: 1rem; background:#f4f4f4;">
     <p>© 2025 Yuxiang Liu</p>
   </footer>
+
+  <script>
+    function filterPosts() {
+      const q = (document.getElementById('blogSearch').value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('.post');
+      cards.forEach(c => {
+        const text = c.innerText.toLowerCase();
+        const tags = (c.getAttribute('data-tags') || '').toLowerCase();
+        c.style.display = (text.includes(q) || tags.includes(q)) ? 'block' : 'none';
+      });
+    }
+  </script>
+
 </body>
 </html>
