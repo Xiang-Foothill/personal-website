@@ -40,7 +40,15 @@
     <p>For example, instead of prompting “summarize research on climate adaptation,” specify terms like “urban heat island mitigation,” “regional climate resilience policies,” and “Bayesian downscaling methods.” This mirrors the first stage of the LitLLMs pipeline, where keyword extraction guides more accurate retrieval from scientific databases.</p>
     <p>Behind the scenes, this process operates through the same principles formalized in Retrieval-Augmented Generation (RAG) by Lewis et al. (2020). RAG explains how an LLM transforms your query into a vector representation, searches a database for semantically similar documents, and ranks them based on relevance before generating its final response. In other words, the precision of your keywords directly shapes how effectively the model retrieves and prioritizes information.</p>
     <p>Think of keywords as coordinates — the more precise they are, the more precisely the AI can navigate the research landscape.</p>
-
+    
+    <figure>
+    <img src="img/figure1-litllms-framework.png" alt="Figure 1: LitLLMs framework (Agarwal et al., 2024)">
+    <figcaption>
+    Figure 1. Framework of LitLLMs: keyword-/embedding-based retrieval → LLM re-ranking → literature-review generation.
+    (Reproduced from Agarwal et al., 2024)
+    </figcaption>
+    </figure>
+    
     <h2>2. Plan-Based Approach</h2>
     <p>A common reason AI-generated literature reviews contain fabricated or irrelevant references is the absence of structural guidance. Providing the model with a concrete plan — such as section headings, target papers, or specific argument flows — acts as a blueprint for generation.</p>
     <p>In experiments by Agarwal et al. (2024), prompting LLMs to first draft an outline (“plan”) and then fill in each section reduced hallucinated references by nearly 25%. You can replicate this effect by asking your AI to:</p>
