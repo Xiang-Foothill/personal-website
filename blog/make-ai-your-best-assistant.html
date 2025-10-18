@@ -13,72 +13,56 @@
     h1 { margin-top:0.5rem; }
     .byline { color:#666; font-size:0.9rem; margin-bottom:1rem; }
     blockquote { margin:1rem 0; padding:0.5rem 1rem; border-left:3px solid #0a66c2; background:#f7fbff; }
-    code, pre { background:#f6f8fa; padding:0.2rem 0.4rem; border-radius:4px; }
-    .refs { margin-top:2rem; font-size:0.95rem; }
-    .refs li { margin:0.4rem 0; }
+    .refs { margin-top: 1rem; padding-left: 1.25rem; }
+    .refs li { margin: 0.4rem 0; }
+    .meta-note { color:#666; font-size:0.9rem; }
   </style>
 </head>
 <body>
   <header>
-    <a href="../index.html">← Back to Home</a>
-    <h1>Make AI Your Best Research Assistant</h1>
+    <a href="../index.html">← Back to home</a>
+    <h1>Make AI Your Best Research Assistant: A Comprehensive Tutorial for Literature Review</h1>
     <div class="byline">October 2025 • Literature Review, LLMs</div>
   </header>
   <main>
-    <p>
-      Large language models (LLMs) have rapidly evolved into capable research assistants.  
-      This post outlines a concise workflow for using them effectively while maintaining scholarly rigor.
-    </p>
+    <h2>Introduction</h2>
+    <p>Large language models (LLMs) have rapidly evolved from chatbots into capable research assistants, able to search, summarize, and synthesize scholarly work. However, these “deep research” functions are far from flawless. Even the best models still fabricate references or misinterpret studies, reminding us that human oversight remains essential.</p>
+    <p>It is natural to ask: from the point of view of a researcher, what is the most sensible way to utilize LLMs for literature searching? To answer this question, I conducted a comprehensive study. Below is a recipe of advice summarizing valuable insights from past researchers, together with my personal suggestions.</p>
 
-    <h2>0) Build a Conceptual Framework First</h2>
-    <p>
-      When entering an unfamiliar field, begin by mapping its core concepts and their relationships.  
-      Converse with an LLM to extract keywords, generate analogies, and clarify how ideas fit together.  
-      As ATLAS.ti defines it, a conceptual framework “explains the main things to be studied — the key factors, variables, or constructs — and any presumed relationships among them.”  
-      This map doesn’t need to be perfect — it simply anchors your subsequent reading and analysis.
-    </p>
+    <h2>0. Building a Conceptual Framework with AI Assistance</h2>
+    <p>Suppose you are a first-year Ph.D. student starting a research project in a field that is completely new to you. Facing thousands of unfamiliar papers can feel overwhelming — and it’s rarely effective to dive into the literature without structural ideas in mind. The most sensible first step, therefore, is to construct a conceptual framework that maps the core concepts and their relationships within the field.</p>
+    <p>As defined by ATLAS.ti, a conceptual framework “explains the main things to be studied — the key factors, variables, or constructs — and any presumed relationships among them.” This simple act of mapping what concepts are being studied, how they are related, and why those relationships matter provides a cognitive anchor for all subsequent research.</p>
+    <p>Here, large language models can be powerful allies. You can ask an LLM to extract keywords embedded in your project description, suggest analogies or generate concrete examples, and clarify relationships among the major constructs. Through conversational refinement, you gradually form a mental model of the field’s underlying logic.</p>
+    <p>Such an AI-facilitated conceptual framework does not need to be flawless. It serves as a starting point—a scaffolding that helps you transition smoothly into deeper reading, data collection, or theory building. Recent work on LLMs in theory construction (Astobiza, 2025) supports this approach, showing that dialogue with LLMs can enhance researchers’ ability to structure abstract ideas, connect concepts, and generate preliminary hypotheses.</p>
 
-    <h2>1) Keyword Search</h2>
-    <p>
-      Precise, domain-specific keywords lead to better results. Behind the scenes, 
-      <em>Retrieval-Augmented Generation (RAG)</em> (<a href="https://arxiv.org/abs/2005.11401" target="_blank">Lewis et al., 2020</a>) formalizes this logic: 
-      your query is embedded into a vector space, relevant documents are retrieved and ranked, and the LLM then synthesizes from the top results. 
-      Think of keywords as coordinates — the more precise they are, the more accurately the AI navigates the research landscape.
-    </p>
+    <h2>1. Keyword Search</h2>
+    <p>The core of AI is a powerful searching machine. You get the right keyword, you get the right result. Before initiating “deep research,” it’s crucial to equip the AI with the right vocabulary. LLMs excel when provided with distilled, domain-specific keywords rather than broad or ambiguous topics.</p>
+    <p>For example, instead of prompting “summarize research on climate adaptation,” specify terms like “urban heat island mitigation,” “regional climate resilience policies,” and “Bayesian downscaling methods.” This mirrors the first stage of the LitLLMs pipeline, where keyword extraction guides more accurate retrieval from scientific databases.</p>
+    <p>Behind the scenes, this process operates through the same principles formalized in Retrieval-Augmented Generation (RAG) by Lewis et al. (2020). RAG explains how an LLM transforms your query into a vector representation, searches a database for semantically similar documents, and ranks them based on relevance before generating its final response. In other words, the precision of your keywords directly shapes how effectively the model retrieves and prioritizes information.</p>
+    <p>Think of keywords as coordinates — the more precise they are, the more precisely the AI can navigate the research landscape.</p>
 
-    <h2>2) Plan-Based Prompts</h2>
-    <p>
-      Provide structure before you ask for content. 
-      In <em>LitLLMs</em> (Agarwal et al., 2024), models that first draft an outline and then fill each section reduce hallucinated references by ≈25 %. 
-      Try: 
-    </p>
-    <blockquote>
-      “Create an outline summarizing recent work on [topic], grouped by methodology and year. Then expand each section using verified sources.”
-    </blockquote>
-    <p>
-      This two-step prompt yields coherence and factual grounding while keeping you in control of the structure.
-    </p>
+    <h2>2. Plan-Based Approach</h2>
+    <p>A common reason AI-generated literature reviews contain fabricated or irrelevant references is the absence of structural guidance. Providing the model with a concrete plan — such as section headings, target papers, or specific argument flows — acts as a blueprint for generation.</p>
+    <p>In experiments by Agarwal et al. (2024), prompting LLMs to first draft an outline (“plan”) and then fill in each section reduced hallucinated references by nearly 25%. You can replicate this effect by asking your AI to:</p>
+    <blockquote>“Create an outline summarizing recent work on [topic], grouped by methodology and year. Then expand each section using verified sources.”</blockquote>
+    <p>This modular prompting encourages coherence and factual grounding, allowing you to integrate AI output into your writing with minimal correction.</p>
 
-    <h2>3) Maintain a Professional Tone</h2>
-    <p>
-      Politeness in prompts may seem irrelevant, but clear and courteous requests tend to produce more balanced outputs. 
-      As <em>Scientific American</em> (2024) notes, users who phrase queries politely often receive better-organized answers. 
-      Treat your LLM dialogue as professional communication with a collaborative assistant.
-    </p>
+    <h2>3. Be (Moderately) Polite</h2>
+    <p>While politeness may seem irrelevant to research, tone can subtly influence how LLMs interpret your request. According to a 2024 article in Scientific American, users who phrase prompts courteously — saying “please,” “could you,” or “thank you” — often receive more balanced and elaborative responses.</p>
+    <p>The AI isn’t emotionally responsive, of course, but politeness often correlates with clearer, less aggressive prompt framing, which leads to better-structured outputs. In practice, being “moderately polite” doesn’t mean treating AI as a person; it means maintaining conversational clarity that benefits both parties. Think of it as professional etiquette for your digital research assistant.</p>
 
     <h2>Conclusion</h2>
-    <p>
-      AI won’t replace scholarly judgment — it amplifies it. Start with a conceptual map, refine your keywords, and guide the model through structured, respectful prompts. 
-      Used critically, LLMs become valuable partners for faster, deeper literature research.
-    </p>
+    <p>Artificial intelligence is not a substitute for scholarly judgment — it is an amplifier of it. When used thoughtfully, large language models can dramatically enhance the efficiency and depth of literature exploration. Beginning with a conceptual framework helps you orient yourself within an unfamiliar field; crafting precise keywords ensures accurate retrieval; structuring prompts with a clear plan maintains coherence; and maintaining a professional tone sustains clarity in dialogue.</p>
 
     <h3>References</h3>
     <ul class="refs">
-      <li>ATLAS.ti. (n.d.). <em>What is a conceptual framework in qualitative research?</em> https://atlasti.com/guides/qualitative-research-guide-part-1/conceptual-framework</li>
-      <li>Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., … & Riedel, S. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP</em>. NeurIPS.</li>
-      <li>Agarwal, S., Ma, R., Gupta, N., & Narayan-Chen, A. (2024). <em>LitLLMs: LLMs for Literature Review — Are We There Yet?</em> arXiv:2412.15249.</li>
-      <li><em>Scientific American</em>. (2024). Should you be nice to AI chatbots such as ChatGPT?</li>
+      <li>Agarwal, S., Ma, R., Gupta, N., &amp; Narayan-Chen, A. (2024). <em>LitLLMs: LLMs for Literature Review — Are We There Yet?</em> arXiv preprint <a href="https://arxiv.org/abs/2412.15249" target="_blank" rel="noopener">arXiv:2412.15249</a>.</li>
+      <li>Astobiza, A. (2025). <em>The role of large language models in theory building: A multifaceted conceptual framework.</em> AI and Ethics, Elsevier.</li>
+      <li>ATLAS.ti. (n.d.). <em>What is a conceptual framework in qualitative research?</em> <a href="https://atlasti.com/guides/qualitative-research-guide-part-1/conceptual-framework" target="_blank" rel="noopener">atlasti.com</a></li>
+      <li>Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., ... &amp; Riedel, S. (2020). <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP.</em> Advances in Neural Information Processing Systems (NeurIPS). <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener">arXiv:2005.11401</a></li>
+      <li><em>Scientific American.</em> (2024, February). <em>Should you be nice to AI chatbots such as ChatGPT?</em> <a href="https://www.scientificamerican.com/article/should-you-be-nice-to-ai-chatbots-such-as-chatgpt/" target="_blank" rel="noopener">Link</a></li>
     </ul>
+    <p class="meta-note">If you spot any inaccuracies or have suggestions, feel free to open an issue or PR on my GitHub.</p>
   </main>
 </body>
 </html>
