@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reflections from IFAC 2026, Busan — Blog</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; line-height: 1.65; color: #222; }
+    main { max-width: 820px; margin: auto; padding: 2rem; }
+    a { color: #0a66c2; }
+    header { background:#f4f4f4; padding:1rem 2rem; }
+    header a { text-decoration:none; color:#0a66c2; }
+    h1 { margin-top:0.5rem; }
+    .byline { color:#666; font-size:0.9rem; margin-bottom:1rem; }
+    blockquote { margin:1rem 0; padding:0.5rem 1rem; border-left:3px solid #0a66c2; background:#f7fbff; }
+    .meta-note { color:#666; font-size:0.9rem; }
+    figure { margin:1.5rem 0; }
+    figure img { width:100%; max-width:600px; height:auto; border-radius:6px; display:block; }
+    figcaption { color:#666; font-size:0.9rem; margin-top:0.4rem; }
+    .photo-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1.5rem 0; }
+    .photo-grid img { width:100%; height:auto; border-radius:6px; display:block; }
+    @media (max-width: 600px) { .photo-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">← Back to home</a>
+    <h1>Reflections from IFAC 2026, Busan</h1>
+    <div class="byline">August 2026 • Control, Robotics, Embodied Intelligence</div>
+  </header>
+  <main>
+    <p>This is Yuxiang Liu, a third-year undergraduate at UC Berkeley. I was glad to present my work at the 23rd IFAC World Congress (International Federation of Automatic Control) in Busan, South Korea. Along the way I met many people working in control, and I came away with a deeper understanding of the field. Here are two reflections I want to write down.</p>
+
+    <figure>
+      <img src="img/IFAC_2026/photo1.jpg" alt="At the 23rd IFAC World Congress in Busan, South Korea">
+      <figcaption>At the 23rd IFAC World Congress in Busan, South Korea.</figcaption>
+    </figure>
+
+    <h2>1. Control and robotics are separating at a remarkable pace</h2>
+    <p>Control and robotics (embodied intelligence), once an inseparable community, are separating at a remarkable pace.</p>
+    <p>At this IFAC I got to appreciate many beautiful mathematical results, which took me back to my early days working with MPC: guarantees of convergence, all kinds of imaginative mathematical constructions, exquisitely elegant problem formulations—it was gorgeous. You rarely see any of this at conferences like CoRL or ICRA. And yet, out of all the talks I attended, not a single one included a hardware experiment.</p>
+    <p>Researchers in control love derivations that are small, precise, and elegant, but the price is an extreme simplification of real-world problems. The robotics community, by contrast, cares more about practicality: performing well on actual hardware is what matters most, and the accompanying cost is a lack of theory—the vast majority of arguments stay at the empirical level, with no theoretical guarantees. You can't have it both ways: the same tension holds between beautiful theory and practical usefulness.</p>
+    <p>I think many people in control will recognize this feeling: the hardest part of a control derivation isn't the derivation itself, but how you abstract a highly complex engineering problem into a reasonable, sufficiently simple mathematical formulation. When the formulation is beautiful enough, the derivation is just doing the obvious thing; when your formulation packs in too many elements of the real problem, even a reincarnated Lyapunov would be at a loss. I'm not trying to argue which side is better or worse—they're two sides of the same coin. But at this conference I clearly felt the distinction between those two sides growing sharper.</p>
+
+    <div class="photo-grid">
+      <img src="img/IFAC_2026/photo2.jpg" alt="Snapshot from IFAC 2026">
+      <img src="img/IFAC_2026/photo3.jpg" alt="Snapshot from IFAC 2026">
+    </div>
+
+    <h2>2. Korean embodied intelligence companies are still finding their market</h2>
+    <p>Within South Korea, embodied intelligence companies are still working out what kind of product consumers actually need.</p>
+    <p>Two Korean embodied intelligence companies attended this IFAC, and by coincidence, both sent exhibitors from their marketing departments—the people who, in theory, should have among the clearest reads on the current embodied intelligence market. At their booths, I asked two questions.</p>
+    <blockquote>A) What do you think the eventual consumer market for embodied intelligence will look like?</blockquote>
+    <p>Both companies' marketing leads reacted in a similar way: a thoughtful pause, then "that is a tricky question," followed by "physical intelligence is developing fast."</p>
+    <blockquote>B) In what areas do you think physical intelligence will outperform traditional solutions (for example, robot vacuums or the assembly-line robotic arms used in factories)?</blockquote>
+    <p>Their answer came in much the same spirit as their response to the first question.</p>
+    <p>To be fair, this is an honest reflection of how early we still are. The technology is moving quickly, and it may simply be too soon for anyone—marketing teams included—to say with confidence where the consumer market will land.</p>
+
+    <figure>
+      <img src="img/IFAC_2026/photo4.jpg" alt="Snapshot from IFAC 2026 in Busan">
+      <figcaption>Busan, South Korea — August 2026.</figcaption>
+    </figure>
+
+    <p class="meta-note">If you spot any inaccuracies or have suggestions, feel free to open an issue or PR on my GitHub.</p>
+  </main>
+</body>
+</html>
