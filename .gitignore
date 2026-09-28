@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Source-of-truth working folder for research assets.
+# Web-ready copies live in research/ and are committed.
+research_assets/
