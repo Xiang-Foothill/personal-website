@@ -1,25 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="lmTitle lmDesc" preserveAspectRatio="xMidYMid meet">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 14 422 348" width="422" height="348" role="img" aria-labelledby="lmTitle lmDesc" preserveAspectRatio="xMidYMid meet">
   <title id="lmTitle">Where to cut the latent interface of a VLA policy</title>
-  <desc id="lmDesc">Left: a frozen vision-language backbone drawn as a stack of layers, with the latent interface tapped at layer 15 and fed to an action head. Layer 15 scores 76.3 percent success while the deepest layer, 28, scores 62.9. Right: policy success plotted against layer index peaks in the middle of the stack and falls off toward the deepest layer, and a dashed InfoNCE curve peaks at the same layer, so InfoNCE can be used to pick the layer without running a policy sweep.</desc>
+  <desc id="lmDesc">A frozen vision-language backbone drawn as a stack of layers. The latent interface is tapped at layer 15, which scores 76.3 percent success, and feeds an action head that outputs an action. The deepest layer, 28, is crossed out: it is what most policies read from, and it scores only 62.9 percent.</desc>
 
   <style>
     .lbl   { font: 14px Arial, Helvetica, sans-serif; fill: #333; }
     .small { font: 12px Arial, Helvetica, sans-serif; fill: #666; }
     .tiny  { font: 11px Arial, Helvetica, sans-serif; fill: #888; }
-    .accent{ fill: #0a66c2; }
     .head  { font: bold 14px Arial, Helvetica, sans-serif; fill: #333; }
     .mono  { font: 13px "SF Mono", Menlo, Consolas, monospace; fill: #0a66c2; }
   </style>
 
-  <rect width="960" height="400" fill="#fafafa"/>
-  <line x1="470" y1="28" x2="470" y2="372" stroke="#ddd" stroke-width="1"/>
+  <rect x="20" y="14" width="422" height="348" fill="#fafafa"/>
 
-  <!-- ================= LEFT: where the interface is cut ================= -->
   <text x="34" y="34" class="head">Where do you cut the backbone?</text>
 
-  <!-- layer stack: 14 bars, L28 at top down to L1 at bottom -->
+  <!-- backbone: 14 stacked bars, L28 at top down to L1 at bottom -->
   <g>
-    <!-- deepest -->
     <rect x="34" y="56" width="120" height="16" rx="3" fill="#e6e8ea" stroke="#cdd2d6"/>
     <rect x="34" y="76" width="120" height="16" rx="3" fill="#e6e8ea" stroke="#cdd2d6"/>
     <rect x="34" y="96" width="120" height="16" rx="3" fill="#e6e8ea" stroke="#cdd2d6"/>
@@ -36,17 +32,16 @@
     <rect x="34" y="296" width="120" height="16" rx="3" fill="#e6e8ea" stroke="#cdd2d6"/>
     <rect x="34" y="316" width="120" height="16" rx="3" fill="#e6e8ea" stroke="#cdd2d6"/>
   </g>
-  <text x="94" y="348" class="small" text-anchor="middle">frozen VLM backbone</text>
+  <text x="94" y="350" class="small" text-anchor="middle">frozen VLM backbone</text>
 
   <!-- deepest-layer annotation -->
-  <text x="182" y="61" class="small">L28 · deepest</text>
-  <text x="182" y="75" class="tiny">62.9% — what most policies use</text>
+  <text x="182" y="61" class="small">L28 &#183; deepest</text>
+  <text x="182" y="76" class="tiny">62.9% &#8212; what most policies use</text>
   <g stroke="#b0b6bb" stroke-width="1.8" stroke-linecap="round">
     <line x1="162" y1="59" x2="172" y2="69"/>
     <line x1="172" y1="59" x2="162" y2="69"/>
   </g>
 
-  <!-- tap arrow from L15 -->
   <defs>
     <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
       <path d="M0,0 L10,5 L0,10 z" fill="#0a66c2"/>
@@ -55,66 +50,19 @@
       <path d="M0,0 L10,5 L0,10 z" fill="#888"/>
     </marker>
   </defs>
-  <path d="M154,184 L232,184" stroke="#0a66c2" stroke-width="2" fill="none" marker-end="url(#arw)"/>
-  <text x="164" y="177" class="small" fill="#0a66c2">L15 · 76.3%</text>
 
-  <!-- latent interface + action head -->
+  <!-- tap arrow from the selected layer -->
+  <path d="M154,184 L232,184" stroke="#0a66c2" stroke-width="2" fill="none" marker-end="url(#arw)"/>
+  <text x="164" y="177" class="small" fill="#0a66c2">L15 &#183; 76.3%</text>
+
+  <!-- latent interface -> action head -> action -->
   <rect x="244" y="152" width="184" height="64" rx="6" fill="#eef2f6" stroke="#0a66c2"/>
   <text x="336" y="176" class="lbl" text-anchor="middle" fill="#0a66c2">latent interface</text>
-  <text x="336" y="196" class="mono" text-anchor="middle">Z = φ(X)</text>
+  <text x="336" y="196" class="mono" text-anchor="middle">Z = &#966;(X)</text>
 
   <path d="M336,216 L336,250" stroke="#888" stroke-width="2" fill="none" marker-end="url(#arwGrey)"/>
   <rect x="264" y="256" width="144" height="40" rx="6" fill="#fff" stroke="#cdd2d6"/>
   <text x="336" y="281" class="lbl" text-anchor="middle">action head g</text>
   <path d="M336,296 L336,326" stroke="#888" stroke-width="2" fill="none" marker-end="url(#arwGrey)"/>
-  <text x="336" y="344" class="lbl" text-anchor="middle">action a</text>
-
-  <!-- ================= RIGHT: why the cut point is not guessable ================= -->
-  <text x="506" y="34" class="head">The best layer is never the deepest</text>
-
-  <!-- plot frame: x from 506 to 906, y from 60 (top) to 300 (baseline) -->
-  <line x1="506" y1="300" x2="916" y2="300" stroke="#bbb" stroke-width="1"/>
-  <line x1="506" y1="60"  x2="506" y2="300" stroke="#bbb" stroke-width="1"/>
-
-  <!-- y gridlines -->
-  <line x1="506" y1="96"  x2="916" y2="96"  stroke="#ececec" stroke-width="1"/>
-  <line x1="506" y1="168" x2="916" y2="168" stroke="#ececec" stroke-width="1"/>
-  <line x1="506" y1="240" x2="916" y2="240" stroke="#ececec" stroke-width="1"/>
-
-  <!-- success curve: peak at L15, falling to 62.9 at L28 -->
-  <path d="M512,268 C540,250 560,214 586,190 C608,170 626,146 652,116 C664,103 676,96 690,98
-           C706,100 716,118 728,140 C742,166 756,190 772,206 C792,226 812,238 834,244
-           C860,251 884,254 910,252"
-        fill="none" stroke="#0a66c2" stroke-width="2.5" stroke-linecap="round"/>
-
-  <!-- InfoNCE curve (dashed), peaks at the same x -->
-  <path d="M512,286 C544,274 566,250 590,224 C614,198 636,168 660,140 C672,126 682,120 692,122
-           C706,125 716,146 726,166 C740,194 756,218 774,232 C796,249 818,258 840,262
-           C866,267 888,269 910,268"
-        fill="none" stroke="#7b61a8" stroke-width="2" stroke-dasharray="6 4" stroke-linecap="round"/>
-
-  <!-- peak marker joining the two curves -->
-  <line x1="690" y1="92" x2="690" y2="300" stroke="#0a66c2" stroke-width="1" stroke-dasharray="3 3" opacity="0.55"/>
-  <circle cx="690" cy="98" r="4.5" fill="#0a66c2"/>
-  <circle cx="692" cy="122" r="4" fill="#7b61a8"/>
-  <text x="690" y="82" class="small" fill="#0a66c2" text-anchor="middle">both peak at L15</text>
-
-  <!-- deepest-layer marker -->
-  <circle cx="910" cy="252" r="4" fill="#b0b6bb"/>
-  <text x="906" y="291" class="tiny" text-anchor="end">L28: 62.9%</text>
-
-  <!-- axis labels -->
-  <text x="711" y="318" class="small" text-anchor="middle">backbone layer index →</text>
-  <text x="512" y="72" class="small">success</text>
-  <text x="916" y="160" class="small" fill="#7b61a8" text-anchor="end">InfoNCE</text>
-
-  <!-- legend / findings -->
-  <g>
-    <line x1="512" y1="340" x2="536" y2="340" stroke="#0a66c2" stroke-width="2.5"/>
-    <text x="544" y="344" class="small">policy success (oracle)</text>
-    <line x1="512" y1="362" x2="536" y2="362" stroke="#7b61a8" stroke-width="2" stroke-dasharray="6 4"/>
-    <text x="544" y="366" class="small">InfoNCE proxy · ρ = +0.82…+0.94</text>
-  </g>
-  <text x="916" y="344" class="tiny" text-anchor="end">9–33× cheaper than a full sweep</text>
-  <text x="916" y="366" class="tiny" text-anchor="end">regret 17.89 → 3.71 pts</text>
+  <text x="336" y="346" class="lbl" text-anchor="middle">action a</text>
 </svg>
