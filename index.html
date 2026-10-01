@@ -4,381 +4,616 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yuxiang Liu — Personal Website</title>
+  <meta name="description" content="Yuxiang Liu, UC Berkeley. Research at the intersection of deep learning and robot control." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap">
+  <script>
+    // Hide contribution items only when we can animate them back in.
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('js-reveal');
+    }
+  </script>
   <style>
+    /* Layout: one 900px reading column under a sticky nav; cards only for papers, projects, and posts. */
+    :root {
+      --bg: #f6f7fa;          /* blue-tinted paper */
+      --surface: #ffffff;
+      --ink: #15213a;         /* Berkeley navy ink */
+      --muted: #59647a;
+      --line: #dde2ea;
+      --accent: #1f4a86;      /* links, buttons */
+      --accent-ink: #ffffff;
+      --accent-soft: #e7edf7;
+      --gold: #a87308;        /* sparing California-gold highlight */
+      --gold-soft: #fbf0d6;
+      --nav-bg: rgba(246, 247, 250, 0.86);
+      --shadow: 0 1px 2px rgba(21, 33, 58, 0.05), 0 6px 20px rgba(21, 33, 58, 0.06);
+
+      --font-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+      --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+      --step--1: 0.84rem;
+      --step-0: 1rem;
+      --step-1: 1.2rem;
+      --step-2: 1.6rem;
+      --step-3: 2.6rem;
+      --radius: 10px;
+      --col: 900px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0d1320;
+        --surface: #151d2d;
+        --ink: #e6eaf2;
+        --muted: #9aa5b9;
+        --line: #26324a;
+        --accent: #8fb4f2;
+        --accent-ink: #0d1320;
+        --accent-soft: #1b2944;
+        --gold: #efbf4f;
+        --gold-soft: #2c2512;
+        --nav-bg: rgba(13, 19, 32, 0.86);
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 6px 20px rgba(0, 0, 0, 0.25);
+        color-scheme: dark;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: var(--step-0);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
     }
-    header, section {
-      padding: 2rem;
-      max-width: 900px;
-      margin: auto;
-    }
-    header {
-      background: #f4f4f4;
-      text-align: center;
-    }
-    section {
-      border-bottom: 1px solid #ddd;
-    }
-    h2 {
-      margin-top: 0;
-    }
-    
-    .intro {
-    display: flex;               
-    align-items: center;         
-    justify-content: space-between; 
-    gap: 2rem;                   
-    }
+    img, video { max-width: 100%; height: auto; display: block; }
+    a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+    [hidden] { display: none !important; }
 
-    .info {
-    flex: 1;                     
-    }
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+    h2 { font-size: var(--step-2); }
+    h3 { font-size: var(--step-1); }
 
-    .photo {
-    max-width: 200px;   
-    height: auto;      
-    }
+    .wrap { max-width: var(--col); margin: 0 auto; padding-inline: 1.25rem; }
 
+    /* --- Nav --- */
+    .topnav {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--nav-bg);
+      -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topnav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.5rem; }
+    .brand { font-family: var(--font-display); font-weight: 600; font-size: 1.15rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
+    .nav-links { display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; min-width: 0; }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: 0.92rem;
+      padding: 0.3rem 0.55rem; border-radius: 6px; white-space: nowrap;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover { color: var(--ink); background: var(--accent-soft); }
+    .nav-links a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--gold); border-radius: 6px 6px 0 0; }
+    .nav-links a.nav-cv { color: var(--accent); font-weight: 500; }
+
+    /* --- Sections --- */
+    main section { padding-block: 2.75rem; border-top: 1px solid var(--line); }
+    main section:first-child { border-top: 0; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+    .section-note { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); }
+
+    /* --- Hero --- */
+    .hero { display: grid; grid-template-columns: 1fr 220px; gap: 2.5rem; align-items: start; padding-block: 3rem 2.75rem; }
+    .hero h1 { font-size: var(--step-3); letter-spacing: -0.01em; }
+    .hero .affil { font-family: var(--font-mono); font-size: 0.9rem; color: var(--muted); margin: 0.5rem 0 1.25rem; }
+    .hero .affil b { color: var(--ink); font-weight: 500; }
+    .hero p.bio { margin: 1.25rem 0 0; max-width: 65ch; }
+    .hero p.bio + p.bio { margin-top: 0.85rem; }
+    .photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .hero-text { min-width: 0; }
+
+    /* --- Buttons (one family for contact, paper, and post actions) --- */
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .btn, .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.38rem 0.8rem; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 500; line-height: 1.3;
+      text-decoration: none; border: 1px solid var(--line);
+      background: var(--surface); color: var(--ink);
+      transition: background .15s ease, border-color .15s ease, color .15s ease, transform .15s ease;
+    }
+    .btn:hover, .project-link:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .btn.primary, .project-link.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .btn.primary:hover, .project-link.primary:hover { color: var(--accent-ink); filter: brightness(1.08); }
+
+    /* --- News --- */
+    .news { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
+    .news li { display: grid; grid-template-columns: 7.5rem 1fr; gap: 1rem; }
+    .news time { font-family: var(--font-mono); font-size: var(--step--1); color: var(--gold); padding-top: 0.15rem; font-variant-numeric: tabular-nums; }
+    .news span { min-width: 0; }
+
+    /* --- Education & experience --- */
+    .entry { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 1rem; }
+    .entry + .entry { margin-top: 1.5rem; }
+    .entry h3 { font-size: 1.15rem; }
+    .entry .when { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); white-space: nowrap; padding-top: 0.2rem; font-variant-numeric: tabular-nums; }
+    .entry .sub { grid-column: 1 / -1; color: var(--muted); }
+    .entry .sub b { color: var(--ink); font-weight: 500; }
+    .entry ul { grid-column: 1 / -1; margin: 0.4rem 0 0; padding-left: 1.1rem; }
+    .entry li + li { margin-top: 0.2rem; }
+    .entry li::marker { color: var(--gold); }
+    .subhead { font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 2.25rem 0 1rem; font-weight: 500; }
+    .chips { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; list-style: none; padding: 0; }
+    .chips li { margin: 0 !important; font-size: 0.84rem; padding: 0.22rem 0.6rem; border-radius: 6px; background: var(--accent-soft); color: var(--ink); }
+    .chips li b { font-family: var(--font-mono); font-weight: 500; color: var(--gold); margin-left: 0.25rem; }
+    .entry.timeline { padding-left: 1.1rem; border-left: 2px solid var(--line); }
+
+    /* --- Papers & projects --- */
     .project {
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 1rem;
-  margin: 1rem 0;
-  background: #fafafa;
-}
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 1.4rem; box-shadow: var(--shadow);
+    }
+    .project + .project { margin-top: 1.25rem; }
+    .project-content { display: flex; align-items: flex-start; gap: 1.75rem; }
+    .project-media { flex: 0 0 40%; min-width: 0; }
+    .project-media video, .project-media img { width: 100%; border-radius: 6px; }
+    .project-text { flex: 1; min-width: 0; }
+    .project h3 { margin-bottom: 0.45rem; }
+    .project .authors { font-size: 0.93rem; color: var(--muted); }
+    .project .authors em { color: var(--ink); font-style: normal; font-weight: 600; }
+    .project .authors:empty { display: none; }
+    .project .meta { display: inline-block; margin-top: 0.45rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
+    .project .meta .venue { color: var(--gold); font-weight: 500; }
+    .project-links { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.9rem; align-items: center; }
+    .project p { margin: 0.5rem 0 0; }
 
-/* project title */
-.project h3 {
-  margin-top: 0;
-  color: #333;
-}
+    /* --- Animated contributions (SCAL, Layer Mystery) --- */
+    .contributions { list-style: none; margin: 1.25rem 0 0; padding: 1.1rem 0 0; border-top: 1px dashed var(--line); display: grid; gap: 0.9rem; }
+    .contrib { display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.9rem; align-items: start; }
+    .contrib-tag {
+      justify-self: start; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.2rem 0.5rem; border-radius: 5px; margin-top: 0.15rem;
+      color: var(--gold); background: var(--gold-soft);
+    }
+    .contrib-body { min-width: 0; }
+    .contrib-body p { margin: 0; }
+    .contrib strong { font-weight: 600; }
+    .num { font-family: var(--font-mono); font-weight: 500; color: var(--gold); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .formula {
+      margin: 0.6rem 0 0.25rem; padding: 0.6rem 0.9rem; border-radius: 8px;
+      background: var(--accent-soft); overflow-x: auto;
+      font-family: var(--font-display); font-style: italic; font-size: 1.15rem; white-space: nowrap;
+    }
+    .formula sub { font-size: 0.7em; }
+    .formula .rad { border-top: 1.5px solid currentColor; padding: 0.05em 0.15em 0; }
+    .formula .up { font-style: normal; }
+    .formula-note { font-size: var(--step--1); color: var(--muted); margin-top: 0.3rem !important; }
+    .replay {
+      font: inherit; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted);
+      background: none; border: 0; padding: 0.3rem 0.2rem; cursor: pointer; margin-left: auto;
+    }
+    .replay:hover { color: var(--accent); }
+    html:not(.js-reveal) .replay { display: none; }
 
-/* container: media left, text right */
-.project-content {
-  display: flex;
-  align-items: flex-start;  /* top-align text with media */
-  gap: 2rem;                /* space between media and text */
-}
+    .js-reveal .contrib .contrib-tag { opacity: 0; transform: scale(0.6); }
+    .js-reveal .contrib .contrib-body { opacity: 0; transform: translateY(10px); }
+    .js-reveal .contrib.in .contrib-tag {
+      opacity: 1; transform: none;
+      transition: opacity .35s ease, transform .45s cubic-bezier(.34, 1.56, .64, 1);
+      transition-delay: calc(var(--i, 0) * 520ms);
+    }
+    .js-reveal .contrib.in .contrib-body {
+      opacity: 1; transform: none;
+      transition: opacity .5s ease, transform .55s cubic-bezier(.22, 1, .36, 1);
+      transition-delay: calc(var(--i, 0) * 520ms + 160ms);
+    }
 
-/* media styling: fill the media column, keep aspect ratio */
-.project video,
-.project img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  display: block;
-}
+    /* --- Blog --- */
+    .blog-search {
+      width: 100%; padding: 0.6rem 0.85rem; margin-bottom: 1.1rem;
+      border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 0.95rem;
+      background: var(--surface); color: var(--ink);
+    }
+    .blog-search:focus { outline: 2px solid var(--accent); outline-offset: 0; border-color: transparent; }
+    .posts { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+    @media (min-width: 800px) { .posts { grid-template-columns: 1fr 1fr; } }
+    .post {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+      overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .post:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(21, 33, 58, 0.14); }
+    .post-cover { display: block; overflow: hidden; background: var(--accent-soft); }
+    .post-thumb { width: 100%; height: 180px; object-fit: cover; transition: transform .3s ease; }
+    .post:hover .post-thumb { transform: scale(1.04); }
+    .post-body { padding: 1.1rem 1.2rem 1.2rem; display: flex; flex-direction: column; flex: 1; }
+    .post-body p { flex: 1; margin: 0.5rem 0 0.9rem; }
+    .post h3 { font-size: 1.15rem; }
+    .post .meta { font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); margin-top: 0.3rem; }
+    .post .btn { align-self: flex-start; }
 
-.project-media {
-  flex: 0 0 40%;
-  min-width: 0;             /* let the flex item shrink instead of overflowing */
-}
+    footer { border-top: 1px solid var(--line); color: var(--muted); font-size: var(--step--1); }
+    footer .wrap { padding-block: 1.5rem; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 
-.project-text {
-  flex: 1;
-  min-width: 0;
-}
-
-/* author list under a project title */
-.project .authors {
-  color: #333;
-  font-size: 0.95rem;
-  margin: -0.35rem 0 0.3rem 0;
-}
-
-/* an author list not filled in yet takes up no space */
-.project .authors:empty {
-  display: none;
-}
-
-/* venue / status line */
-.project .meta {
-  color: #666;
-  font-size: 0.85rem;
-  margin: 0 0 0.6rem 0;
-}
-
-/* row of action buttons at the bottom of a project */
-.project-links {
-  display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
-  margin-top: 0.75rem;
-}
-
-.project-link {
-  display: inline-block;
-  padding: 0.4rem 0.7rem;
-  background: #0a66c2;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 0.9rem;
-}
-
-.project-link:hover {
-  background: #094f96;
-}
-
-.project-link.secondary {
-  background: #eef2f6;
-  color: #0a66c2;
-}
-
-.project-link.secondary:hover {
-  background: #dde6ef;
-}
-
-.contact-links {
-  margin-top: 1rem;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.contact-link {
-  padding: 0.4rem 0.8rem;
-  background: #333;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
-}
-
-.contact-link:hover {
-  background: #555;
-}
-
-.project-img {
-  width: 100%;       /* make image larger */
-  max-width: 1000px;
-  height: auto;     /* keep aspect ratio */
-}
-
-/* keep any media from overflowing its container */
-img, video { max-width: 100%; height: auto; }
-
-/* --- Mobile layout --- */
-@media (max-width: 680px) {
-  header, section, #blog { padding: 1.25rem; }
-  .intro { flex-direction: column; text-align: center; gap: 1rem; }
-  .photo { max-width: 55%; }
-  .project-content { flex-direction: column; gap: 1rem; }
-  .project video, .project img { width: 100%; }
-  .posts { grid-template-columns: 1fr; }
-}
-
-/* --- Blog styles (added) --- */
-#blog { padding: 2rem; max-width: 900px; margin: auto; }
-.blog-toolbar { display:flex; gap:1rem; align-items:center; margin:0.5rem 0 1rem 0; flex-wrap:wrap; }
-.blog-search { flex:1; min-width:240px; padding:0.5rem 0.75rem; border:1px solid #ccc; border-radius:6px; font-size:0.95rem; }
-.posts { display:grid; grid-template-columns:1fr; gap:1rem; }
-@media (min-width: 800px) { .posts { grid-template-columns:1fr 1fr; } }
-.post { border:1px solid #e3e3e3; border-radius:8px; background:#fff; overflow:hidden; display:flex; flex-direction:column; transition: box-shadow .2s ease, transform .2s ease; }
-.post:hover { box-shadow:0 8px 24px rgba(0,0,0,0.10); transform:translateY(-3px); }
-.post-cover { display:block; overflow:hidden; background:#eef2f6; }
-.post-thumb { width:100%; height:180px; object-fit:cover; display:block; transition: transform .3s ease; }
-.post:hover .post-thumb { transform:scale(1.04); }
-.post-body { padding:1rem; display:flex; flex-direction:column; flex:1; }
-.post-body p { flex:1; }
-.post h3 { margin:0 0 .25rem 0; }
-.post .meta { color:#666; font-size:.85rem; margin-bottom:.5rem; }
-.post a.btn { align-self:flex-start; display:inline-block; margin-top:.5rem; padding:.4rem .7rem; background:#0a66c2; color:#fff; text-decoration:none; border-radius:5px; font-size:.9rem; }
-.post a.btn:hover { background:#094f96; }
-
+    /* --- Mobile --- */
+    @media (max-width: 680px) {
+      .topnav .brand { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 1.5rem; padding-block: 2rem; }
+      .hero .photo-wrap { order: -1; max-width: 180px; }
+      .hero h1 { font-size: 2.1rem; }
+      .project { padding: 1.1rem; }
+      .project-content { flex-direction: column; gap: 1rem; }
+      .project-media { flex-basis: auto; width: 100%; }
+      .contrib { grid-template-columns: 1fr; gap: 0.35rem; }
+      .formula { font-size: 0.95rem; padding: 0.5rem 0.65rem; }
+      .news li { grid-template-columns: 1fr; gap: 0; }
+      .entry { grid-template-columns: 1fr; }
+      .entry .when { padding-top: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+    }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="intro">
-      <!-- Left side: text -->
-      <div class="info">
-        <h1>Yuxiang Liu</h1>
-        <p>University of California, Berkeley</p>
-        <p>Bachelor of Computer Science, BA</p>
+  <nav class="topnav" aria-label="Sections">
+    <div class="wrap">
+      <a class="brand" href="#about">Yuxiang Liu</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#news">News</a>
+        <a href="#education">Education</a>
+        <a href="#research">Research</a>
+        <a href="#projects">Projects</a>
+        <a href="#blog">Blog</a>
+        <a class="nav-cv" href="cv/Yuxiang_Liu_CV.pdf" target="_blank" rel="noopener">CV</a>
+      </div>
+    </div>
+  </nav>
 
-        <div class="contact-links">
-            <a href="mailto:liu.yx@berkeley.edu" class="contact-link">Email</a>
-            <a href="https://github.com/Xiang-Foothill" target="_blank" class="contact-link">GitHub</a>
-            <a href="https://www.linkedin.com/in/yuxiang-liu-b775812a8/" target="_blank" class="contact-link">LinkedIn</a>
+  <main class="wrap">
+    <!-- About -->
+    <section id="about" class="hero">
+      <div class="hero-text">
+        <h1>Yuxiang Liu</h1>
+        <p class="affil"><b>University of California, Berkeley</b> · B.A. Computer Science, expected May 2027</p>
+
+        <div class="btn-row">
+          <a href="cv/Yuxiang_Liu_CV.pdf" target="_blank" rel="noopener" class="btn primary">CV</a>
+          <a href="mailto:liu.yx@berkeley.edu" class="btn">Email</a>
+          <a href="https://github.com/Xiang-Foothill" target="_blank" rel="noopener" class="btn">GitHub</a>
+          <a href="https://www.linkedin.com/in/yuxiang-liu-b775812a8/" target="_blank" rel="noopener" class="btn">LinkedIn</a>
         </div>
 
-        <p>Hi, I am Yuxiang Liu, a computer-science Sennior of the University of California, Berkeley. My research interests land in the intersection of deep learning and robotics control. More specifically, I am interested in the theoretical interpretation of physical intelligent systems and the development of generalizable high-performance robotics.
-          Ever since Spring 2024, I have been working with Professor Francesco Borrelli in MPC Lab of UC Berkeley, focusing end-to-end driving of autonomous vehicles. During the summer of 2026, I worked with Professor Yisong Yue and Aaron Ames in California Institute of Technology, working on theoretical interpretations of VLA interfaces. I am currently applying for Ph.D. programs in the field of physical intelligent systems. Please feel free to reach out to me if you are interested in my research.
+        <p class="bio">
+          Hi, I am Yuxiang Liu, a computer-science senior at the University of California, Berkeley. My research interests lie at the intersection of deep learning and robotics control. More specifically, I am interested in the theoretical interpretation of physical intelligent systems and the development of generalizable high-performance robotics.
+        </p>
+        <p class="bio">
+          Since Spring 2024, I have been working with Professor Francesco Borrelli in the MPC Lab at UC Berkeley, focusing on end-to-end driving of autonomous vehicles. During the summer of 2026, I worked with Professors Yisong Yue and Aaron Ames at the California Institute of Technology on theoretical interpretations of VLA interfaces. I am currently applying for Ph.D. programs in the field of physical intelligent systems. Please feel free to reach out if you are interested in my research.
         </p>
       </div>
-  
-      <!-- Right side: image -->
-      <img src="myphoto.jpg" alt="Photo of Yuxiang Liu" class="photo">
-    </div>
-  </header>
 
-  <!-- Research Experience -->
-  <section id="research">
-    <h2>Research</h2>
-
-    <!-- RACER -->
-    <div class="project">
-      <div class="project-content">
-        <div class="project-media">
-          <video controls preload="metadata" poster="research/racer/racer_poster.jpg">
-            <source src="research/racer/racer_demo.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-
-        <div class="project-text">
-          <h3>RACER: Residual-Adaptive Closed-Loop Estimation for Sampling-Based Planning in Wheeled-Quadruped Racing</h3>
-          <div class="authors"><em>Yuxiang Liu</em>*, Marla Eisman*, Lizhi Yang*, Aaron Ames, Francesco Borrelli</div>
-          <div class="meta">Submitted to ICRA 2027 &middot; *equal contribution</div>
-          <div class="project-links">
-            <a href="research/racer/RACER_ICRA2027.pdf" target="_blank" class="project-link">PDF</a>
-            <a href="research/racer/racer_demo.mp4" target="_blank" class="project-link secondary">Video</a>
-          </div>
-        </div>
+      <div class="photo-wrap">
+        <img src="myphoto.jpg" alt="Photo of Yuxiang Liu" class="photo">
       </div>
-    </div>
+    </section>
 
-    <!-- SCAL -->
-    <div class="project">
-      <div class="project-content">
-        <div class="project-media">
-          <img src="latent_space_demonstration.png"
-               alt="PCA projection of the policy's latent space with and without SCAL, for latent vectors sampled from the same path-tracking trajectory: with SCAL the source- and target-domain latents overlap, without it they separate into two clusters.">
-        </div>
+    <!-- News -->
+    <section id="news">
+      <div class="section-head"><h2>News</h2></div>
+      <ul class="news">
+        <li><time datetime="2026-09">Sep 2026</time><span><em>The Layer Mystery of VLA</em> is on <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener">arXiv</a> and under review at ICLR 2027.</span></li>
+        <li><time datetime="2026-09">Sep 2026</time><span><em>RACER</em> submitted to ICRA 2027.</span></li>
+        <li><time datetime="2026-08">Aug 2026</time><span>Oral presentation and invited reviewer at the 23rd IFAC World Congress in Busan. <a href="blog/ifac-2026-busan.html">Reflections from the trip</a>.</span></li>
+        <li><time datetime="2026-06">Jun 2026</time><span>Started a summer research internship at the AMBER Lab, Caltech.</span></li>
+      </ul>
+    </section>
 
-        <div class="project-text">
-          <h3>State-Conditional Adversarial Learning: An Off-Policy Visual Domain Transfer Method for End-to-End Imitation Learning</h3>
-          <div class="authors"><em>Yuxiang Liu</em>*, Shengfan Cao*</div>
-          <div class="meta">IFAC World Congress 2026 &middot; *equal contribution</div>
-          <div class="project-links">
-            <a href="research/scal/IFAC_2026_SCAL.pdf" target="_blank" class="project-link">PDF</a>
-            <a href="https://github.com/Xiang-Foothill/BkgGeneralizor" target="_blank" class="project-link secondary">Code</a>
-          </div>
-        </div>
+    <!-- Education & Experience -->
+    <section id="education">
+      <div class="section-head"><h2>Education</h2></div>
+
+      <div class="entry">
+        <h3>University of California, Berkeley</h3>
+        <span class="when">Expected May 2027</span>
+        <div class="sub">Bachelor of Arts in Computer Science · GPA <b>3.942 / 4.0</b></div>
+        <ul class="chips" aria-label="Relevant coursework">
+          <li>Probabilistic Models (EECS 126)<b>A</b></li>
+          <li>Optimization Models (EECS 127)<b>A+</b></li>
+          <li>Model Predictive Control (ME 231A)<b>A</b></li>
+          <li>Robotics (EECS 106A)<b>A</b></li>
+          <li>Feedback Control (EE 128)<b>A+</b></li>
+          <li>Mathematical Analysis (MATH 104)<b>A+</b></li>
+        </ul>
       </div>
-    </div>
 
-    <!-- Layer Mystery -->
-    <div class="project">
-      <div class="project-content">
-        <div class="project-media">
-          <img src="research/layer-mystery/latent-interface.svg"
-               alt="Diagram of a frozen VLM backbone drawn as a stack of layers. The latent interface is tapped at layer 15, scoring 76.3% success, and feeds an action head. The deepest layer, 28, is crossed out: it is what most policies read from, and it scores only 62.9%.">
-        </div>
+      <h3 class="subhead">Research experience</h3>
 
-        <div class="project-text">
-          <h3>The Layer Mystery of VLA: An Information-Theoretical Analysis of VLA Latent Interface</h3>
-          <div class="authors"><em>Yuxiang Liu</em>*, Lizhi Yang*, Fengze Xie*, Aaron Ames, Yisong Yue</div>
-          <div class="meta">Submitted to ICLR 2027 &middot; *equal contribution</div>
-          <div class="project-links">
-            <a href="research/layer-mystery/Layer_Mystery_ICLR2027.pdf" target="_blank" class="project-link">PDF</a>
-          </div>
-        </div>
+      <div class="entry timeline">
+        <h3>Model Predictive Control Lab, UC Berkeley</h3>
+        <span class="when">Jan 2024 – Present</span>
+        <div class="sub">Research Intern · advised by Prof. Francesco Borrelli</div>
+        <ul>
+          <li>Enabled sim-to-real transfer of a PPO-trained wheeled quadruped by modeling realistic joint-actuator delays in training.</li>
+          <li>Developed BARC-CARLA, a CARLA-based simulation environment for end-to-end racing.</li>
+          <li>Developed LTrack-Go2W, a MuJoCo-based parallel simulation environment for wheeled-quadruped racing.</li>
+        </ul>
       </div>
-    </div>
-  </section>
 
+      <div class="entry timeline">
+        <h3>AMBER Lab, California Institute of Technology</h3>
+        <span class="when">Jun 2026 – Aug 2026</span>
+        <div class="sub">Summer Research Intern · with Prof. Aaron Ames and Prof. Yisong Yue</div>
+        <ul>
+          <li>Reproduced the fast-UMI data-collection pipeline, customizing it with CAD for the hand shape of the Unitree G1.</li>
+        </ul>
+      </div>
 
-  <!-- Projects -->
-  <section id="projects">
-    <h2>Projects</h2>
+      <div class="entry timeline">
+        <h3>23rd IFAC World Congress</h3>
+        <span class="when">Aug 2026</span>
+        <div class="sub">Invited Reviewer and Oral Presenter</div>
+      </div>
+    </section>
 
-    <!-- Project 1 -->
-    <div class="project">
+    <!-- Research -->
+    <section id="research">
+      <div class="section-head"><h2>Research</h2><span class="section-note">* equal contribution</span></div>
+
+      <!-- RACER -->
+      <article class="project">
         <div class="project-content">
-          <!-- Left: video -->
           <div class="project-media">
-            <video controls>
-              <source src="video1.mp4" type="video/mp4">
+            <video controls preload="metadata" poster="research/racer/racer_poster.jpg">
+              <source src="research/racer/racer_demo.mp4" type="video/mp4">
+              Your browser does not support the video tag.
             </video>
           </div>
-    
-          <!-- Right: text -->
+
           <div class="project-text">
-            <h3>VisionSE</h3>
-            <p>
-              VisionSE is an open-sourced library of a pure-vision estimator for the
-              motion state of an ego-vehicle. By applying optical flow measurements to
-              consecutive image frames, such an estimator can perform motion-state
-              estimations relying only on the input RGB data from a windshield camera
-              attached to the vehicle.
-            </p>
+            <h3>RACER: Residual-Adaptive Closed-Loop Estimation for Sampling-Based Planning in Wheeled-Quadruped Racing</h3>
+            <div class="authors"><em>Yuxiang Liu</em>*, Marla Eisman*, Lizhi Yang*, Aaron Ames, Francesco Borrelli</div>
+            <div class="meta"><span class="venue">ICRA 2027</span> · under review</div>
             <div class="project-links">
-              <a href="https://github.com/Xiang-Foothill/VisionSE" target="_blank" class="project-link">GitHub</a>
+              <a href="research/racer/RACER_ICRA2027.pdf" target="_blank" rel="noopener" class="project-link primary">PDF</a>
+              <a href="research/racer/racer_demo.mp4" target="_blank" rel="noopener" class="project-link">Video</a>
             </div>
           </div>
         </div>
+      </article>
+
+      <!-- SCAL -->
+      <article class="project">
+        <div class="project-text">
+          <h3>State-Conditional Adversarial Learning: An Off-Policy Visual Domain Transfer Method for End-to-End Imitation Learning</h3>
+          <div class="authors"><em>Yuxiang Liu</em>*, Shengfan Cao*</div>
+          <div class="meta"><span class="venue">IFAC World Congress 2026</span> · accepted, oral</div>
+          <div class="project-links">
+            <a href="https://arxiv.org/abs/2512.05335" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
+            <a href="https://github.com/Xiang-Foothill/BkgGeneralizor" target="_blank" rel="noopener" class="project-link">Code</a>
+            <button type="button" class="replay" data-replay>↻ Replay</button>
+          </div>
+        </div>
+
+        <ol class="contributions" aria-label="Main contributions">
+          <li class="contrib">
+            <span class="contrib-tag">Theory</span>
+            <div class="contrib-body">
+              <p>The target-domain imitation loss is upper-bounded by the source-domain loss plus a <strong>state-conditional latent KL divergence</strong> between the two observation models. This turns visual domain transfer into a tractable objective that needs no target-domain expert.</p>
+              <div class="formula" role="math" aria-label="J t of theta is at most J s of theta plus alpha times the square root of two gamma over one minus gamma, times L of phi plus sigma">
+                J<sub>t</sub>(θ) <span class="up">≤</span> J<sub>s</sub>(θ) <span class="up">+</span> α<span class="up">√</span><span class="rad"><span class="up">(</span>2γ / <span class="up">(</span>1 <span class="up">−</span> γ<span class="up">)</span> <span class="up">·</span> <span class="up">(</span>𝓛(φ) <span class="up">+</span> σ<span class="up">))</span></span>
+              </div>
+              <p class="formula-note">𝓛(φ) is the state-conditional latent alignment loss that SCAL minimizes; σ is the inherent divergence between observation models.</p>
+            </div>
+          </li>
+          <li class="contrib">
+            <span class="contrib-tag">Method</span>
+            <div class="contrib-body">
+              <p><strong>SCAL</strong>, an off-policy adversarial framework: a discriminator estimates the conditional KL term, and the encoder aligns latent distributions conditioned on system state using only off-policy, expert-free target data.</p>
+            </div>
+          </li>
+          <li class="contrib">
+            <span class="contrib-tag">Result</span>
+            <div class="contrib-body">
+              <p>Exceeds expert-supervised DAgger trajectory lengths across three target sampling distributions with as few as <span class="num" data-to="256">256</span> supervision-free samples, and transfers a vision-based racing policy from low to high speed.</p>
+            </div>
+          </li>
+        </ol>
+      </article>
+
+      <!-- Layer Mystery -->
+      <article class="project">
+        <div class="project-text">
+          <h3>The Layer Mystery of VLA: An Information-Theoretical Analysis of VLA Latent Interface</h3>
+          <div class="authors"><em>Yuxiang Liu</em>*, Lizhi Yang*, Fengze Xie*, Aaron Ames, Yisong Yue</div>
+          <div class="meta"><span class="venue">ICLR 2027</span> · under review</div>
+          <div class="project-links">
+            <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
+            <button type="button" class="replay" data-replay>↻ Replay</button>
+          </div>
+        </div>
+
+        <ol class="contributions" aria-label="Main contributions">
+          <li class="contrib">
+            <span class="contrib-tag">Finding</span>
+            <div class="contrib-body">
+              <p>Fusing layers rarely helps. Across three frozen VLM backbones and two benchmarks (LIBERO, CALVIN), <span class="num" data-to="47">47</span> of <span class="num">54</span> fusion configurations underperform the best single-layer policy.</p>
+            </div>
+          </li>
+          <li class="contrib">
+            <span class="contrib-tag">Theory</span>
+            <div class="contrib-body">
+              <p>A <strong>reweighting equivalence</strong> between the information-bottleneck objective for action prediction and action-conditioned InfoNCE, which gives a principled score for how useful each layer is to the policy.</p>
+            </div>
+          </li>
+          <li class="contrib">
+            <span class="contrib-tag">Method</span>
+            <div class="contrib-body">
+              <p>InfoNCE-based layer selection uses <span class="num">9–33×</span> less GPU compute than exhaustive policy sweeps and cuts mean selection regret from <span class="num">17.89</span> to <span class="num" data-from="17.89" data-to="3.71" data-dec="2">3.71</span> percentage points compared with picking the deepest layer.</p>
+            </div>
+          </li>
+        </ol>
+      </article>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="section-head"><h2>Projects</h2></div>
+
+      <article class="project">
+        <div class="project-content">
+          <div class="project-media">
+            <video controls preload="metadata">
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+          </div>
+
+          <div class="project-text">
+            <h3>VisionSE</h3>
+            <p>
+              VisionSE is an open-source library for pure-vision estimation of an ego-vehicle's motion state.
+              By applying optical-flow measurements to consecutive image frames, the estimator recovers the
+              motion state using only RGB input from a windshield camera.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/Xiang-Foothill/VisionSE" target="_blank" rel="noopener" class="project-link primary">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Blog -->
+    <section id="blog">
+      <div class="section-head"><h2>Blog</h2></div>
+      <label for="blogSearch" class="subhead" style="display:block;margin:0 0 0.5rem">Search posts</label>
+      <input id="blogSearch" class="blog-search" type="search" placeholder="e.g. RAG, literature review, IFAC" oninput="filterPosts()">
+      <div id="posts" class="posts">
+        <article class="post" data-tags="ifac,control,robotics,embodied intelligence,mpc,conference,busan">
+          <a class="post-cover" href="blog/ifac-2026-busan.html">
+            <img class="post-thumb" src="blog/img/IFAC_2026/photo1-thumb.jpg" alt="IFAC 2026 World Congress in Busan">
+          </a>
+          <div class="post-body">
+            <h3>Reflections from IFAC 2026, Busan</h3>
+            <div class="meta">Aug 2026 · Control, Robotics, Embodied Intelligence</div>
+            <p>
+              Two reflections from presenting at the 23rd IFAC World Congress in Busan: how the control and robotics
+              communities are drifting apart, and how Korean embodied-intelligence companies are still searching for their consumer market.
+            </p>
+            <a class="btn" href="blog/ifac-2026-busan.html">Read post</a>
+          </div>
+        </article>
+        <article class="post" data-tags="ai,llm,literature review,rag,workflow">
+          <a class="post-cover" href="blog/make-ai-your-best-assistant.html">
+            <img class="post-thumb" src="blog/img/figure1-litllms-framework.png" alt="LitLLMs literature-review framework">
+          </a>
+          <div class="post-body">
+            <h3>Make AI Your Best Research Assistant</h3>
+            <div class="meta">Oct 2025 · Literature Review, LLMs</div>
+            <p>
+              A practical recipe for using LLMs to accelerate literature reviews: build a conceptual framework, craft sharp keywords,
+              use plan-based prompts, and keep your tone professional. Includes notes on RAG and ranking.
+            </p>
+            <a class="btn" href="blog/make-ai-your-best-assistant.html">Read post</a>
+          </div>
+        </article>
       </div>
-  
-    <!-- More projects can be added below in the same format -->
-  </section>
+    </section>
+  </main>
 
-  <!-- Blog -->
-  <section id="blog">
-    <h2>Blog</h2>
-    <div class="blog-toolbar">
-      <input id="blogSearch" class="blog-search" type="search" placeholder="Search posts by keyword… (e.g., RAG, literature review, domain adaptation)" oninput="filterPosts()">
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Yuxiang Liu</span>
+      <span><a href="cv/Yuxiang_Liu_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a> · <a href="mailto:liu.yx@berkeley.edu">liu.yx@berkeley.edu</a></span>
     </div>
-    <div id="posts" class="posts">
-      <article class="post" data-tags="ifac,control,robotics,embodied intelligence,mpc,conference,busan">
-        <a class="post-cover" href="blog/ifac-2026-busan.html">
-          <img class="post-thumb" src="blog/img/IFAC_2026/photo1-thumb.jpg" alt="IFAC 2026 World Congress in Busan">
-        </a>
-        <div class="post-body">
-          <h3>Reflections from IFAC 2026, Busan</h3>
-          <div class="meta">August 2026 • Control, Robotics, Embodied Intelligence</div>
-          <p>
-            Two reflections from presenting at the 23rd IFAC World Congress in Busan: how the control and robotics
-            communities are drifting apart, and how Korean embodied-intelligence companies are still searching for their consumer market.
-          </p>
-          <a class="btn" href="blog/ifac-2026-busan.html">Read post</a>
-        </div>
-      </article>
-      <article class="post" data-tags="ai,llm,literature review,rag,workflow">
-        <a class="post-cover" href="blog/make-ai-your-best-assistant.html">
-          <img class="post-thumb" src="blog/img/figure1-litllms-framework.png" alt="LitLLMs literature-review framework">
-        </a>
-        <div class="post-body">
-          <h3>Make AI Your Best Research Assistant</h3>
-          <div class="meta">October 2025 • Literature Review, LLMs</div>
-          <p>
-            A practical recipe for using LLMs to accelerate literature reviews: build a conceptual framework, craft sharp keywords,
-            use plan-based prompts, and keep your tone professional. Includes notes on RAG and ranking.
-          </p>
-          <a class="btn" href="blog/make-ai-your-best-assistant.html">Read post</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- News -->
-  <section id="news">
-    <h2>News</h2>
-    <p>More works to be done!</p>
-  </section>
-
-
-  <!-- Footer -->
-  <footer style="text-align:center; padding: 1rem; background:#f4f4f4;">
-    <p>© 2025 Yuxiang Liu</p>
   </footer>
 
   <script>
     function filterPosts() {
       const q = (document.getElementById('blogSearch').value || '').toLowerCase().trim();
-      const cards = document.querySelectorAll('.post');
-      cards.forEach(c => {
+      document.querySelectorAll('.post').forEach(c => {
         const text = c.innerText.toLowerCase();
         const tags = (c.getAttribute('data-tags') || '').toLowerCase();
-        c.style.display = (text.includes(q) || tags.includes(q)) ? 'block' : 'none';
+        c.hidden = !(text.includes(q) || tags.includes(q));
       });
     }
-  </script>
 
+    // Highlight the nav link for the section in view.
+    (function () {
+      if (!('IntersectionObserver' in window)) return;
+      const links = new Map();
+      document.querySelectorAll('.nav-links a[href^="#"]').forEach(a => links.set(a.getAttribute('href').slice(1), a));
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          links.forEach(a => a.removeAttribute('aria-current'));
+          const a = links.get(e.target.id);
+          if (a) a.setAttribute('aria-current', 'true');
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      links.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+    })();
+
+    // Contributions pop in one by one when a paper card scrolls into view.
+    (function () {
+      if (!document.documentElement.classList.contains('js-reveal')) return;
+      const STEP = 520; // ms between items; matches the CSS transition-delay
+
+      function countUp(el, delay) {
+        const to = parseFloat(el.dataset.to);
+        const from = el.dataset.from !== undefined ? parseFloat(el.dataset.from) : 0;
+        const dec = parseInt(el.dataset.dec || '0', 10);
+        const dur = 900;
+        el.textContent = from.toFixed(dec);
+        setTimeout(() => {
+          const t0 = performance.now();
+          (function tick(now) {
+            const p = Math.min(1, (now - t0) / dur);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = (from + (to - from) * eased).toFixed(dec);
+            if (p < 1) requestAnimationFrame(tick);
+          })(t0);
+        }, delay);
+      }
+
+      function play(list) {
+        list.querySelectorAll('.contrib').forEach((item, i) => {
+          item.style.setProperty('--i', i);
+          item.classList.add('in');
+          item.querySelectorAll('.num[data-to]').forEach(n => countUp(n, i * STEP + 250));
+        });
+      }
+
+      function reset(list) {
+        list.querySelectorAll('.contrib').forEach(item => item.classList.remove('in'));
+        void list.offsetWidth; // restart transitions
+      }
+
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { play(e.target); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.contributions').forEach(list => io.observe(list));
+
+      document.querySelectorAll('[data-replay]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const list = btn.closest('.project').querySelector('.contributions');
+          reset(list);
+          requestAnimationFrame(() => play(list));
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
