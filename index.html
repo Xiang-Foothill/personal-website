@@ -140,7 +140,8 @@
     .news span { min-width: 0; }
 
     /* --- Education & experience --- */
-    .entry { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 1rem; }
+    .entry { display: flex; align-items: flex-start; gap: 1.1rem; }
+    .entry-body { flex: 1; min-width: 0; display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 1rem; }
     .entry + .entry { margin-top: 1.5rem; }
     .entry h3 { font-size: 1.15rem; }
     .entry .when { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); white-space: nowrap; padding-top: 0.2rem; font-variant-numeric: tabular-nums; }
@@ -155,12 +156,59 @@
     .chips li b { font-family: var(--font-mono); font-weight: 500; color: var(--gold); margin-left: 0.25rem; }
     .entry.timeline { padding-left: 1.1rem; border-left: 2px solid var(--line); }
 
+    /* Institution logos: the lab or school mark on a white tile, the parent university as a corner badge.
+       Tiles stay white in dark mode because the marks are drawn for light backgrounds. */
+    .entry-logo { position: relative; flex: 0 0 4rem; width: 4rem; height: 4rem; }
+    .logo-tile {
+      width: 100%; height: 100%; padding: 0.45rem; border-radius: 12px; overflow: hidden;
+      background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .logo-tile img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-badge {
+      position: absolute; right: -0.5rem; bottom: -0.5rem;
+      width: 2.1rem; height: 2.1rem; padding: 0.2rem; border-radius: 50%;
+      background: #fff; border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .logo-badge img { width: 100%; height: 100%; object-fit: contain; }
+    .logo-badge.bare { padding: 0; border: 0; }
+
+    .js-reveal .entry-logo .logo-tile { opacity: 0; transform: translateY(10px) scale(0.55); }
+    .js-reveal .entry-logo .logo-badge { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+    .js-reveal .entry-logo.in .logo-tile {
+      opacity: 1; transform: none;
+      transition: opacity .45s ease, transform .7s cubic-bezier(.34, 1.56, .64, 1);
+      transition-delay: calc(var(--i, 0) * 380ms);
+    }
+    .js-reveal .entry-logo.in .logo-badge {
+      opacity: 1; transform: none;
+      transition: opacity .35s ease, transform .55s cubic-bezier(.34, 1.56, .64, 1);
+      transition-delay: calc(var(--i, 0) * 380ms + 420ms);
+    }
+
     /* --- Papers & projects --- */
     .project {
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
       padding: 1.4rem; box-shadow: var(--shadow);
     }
     .project + .project { margin-top: 1.25rem; }
+    .papers { display: grid; gap: 1.25rem; }
+    .papers .project + .project { margin-top: 0; }
+    .papers .project.shown { animation: card-in .4s cubic-bezier(.22, 1, .36, 1) both; }
+    @keyframes card-in { from { opacity: 0; transform: translateY(12px); } }
+
+    /* Research filter (All / Preprints / Published) */
+    .filter { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: -0.25rem 0 1.25rem; }
+    .filter-btn {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      font: inherit; font-size: 0.86rem; font-weight: 500; line-height: 1.3;
+      padding: 0.34rem 0.8rem; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--line); background: var(--surface); color: var(--muted);
+      transition: background .15s ease, border-color .15s ease, color .15s ease;
+    }
+    .filter-btn:hover { color: var(--ink); border-color: var(--accent); }
+    .filter-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+    .filter-btn .count { font-family: var(--font-mono); font-size: 0.74rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
+    .filter-btn .count:empty { display: none; }
     .project-content { display: flex; align-items: flex-start; gap: 1.75rem; }
     .project-media { flex: 0 0 40%; min-width: 0; }
     .project-media video, .project-media img { width: 100%; border-radius: 6px; }
@@ -255,8 +303,12 @@
       .contrib { grid-template-columns: 1fr; gap: 0.35rem; }
       .formula { font-size: 0.95rem; padding: 0.5rem 0.65rem; }
       .news li { grid-template-columns: 1fr; gap: 0; }
-      .entry { grid-template-columns: 1fr; }
+      .entry { gap: 0.9rem; }
+      .entry-body { grid-template-columns: 1fr; }
       .entry .when { padding-top: 0; }
+      .entry-logo { flex-basis: 3.25rem; width: 3.25rem; height: 3.25rem; }
+      .logo-tile { padding: 0.35rem; border-radius: 10px; }
+      .logo-badge { width: 1.75rem; height: 1.75rem; right: -0.4rem; bottom: -0.4rem; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -321,101 +373,108 @@
     <!-- Research -->
     <section id="research">
       <div class="section-head"><h2>Research</h2><span class="section-note">* equal contribution</span></div>
+      <div class="filter" role="group" aria-label="Filter papers by status">
+        <button type="button" class="filter-btn" data-filter="all" aria-pressed="true">All <span class="count"></span></button>
+        <button type="button" class="filter-btn" data-filter="preprint" aria-pressed="false">Preprints <span class="count"></span></button>
+        <button type="button" class="filter-btn" data-filter="published" aria-pressed="false">Published <span class="count"></span></button>
+      </div>
 
-      <!-- RACER -->
-      <article class="project">
-        <div class="project-content">
-          <div class="project-media">
-            <video controls preload="metadata" poster="research/racer/racer_poster.jpg">
-              <source src="research/racer/racer_demo.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-            </video>
-          </div>
-
-          <div class="project-text">
-            <h3>RACER: Residual-Adaptive Closed-Loop Estimation for Sampling-Based Planning in Wheeled-Quadruped Racing</h3>
-            <div class="authors"><em>Yuxiang Liu</em>*, Marla Eisman*, Lizhi Yang*, Aaron Ames, Francesco Borrelli</div>
-            <div class="meta"><span class="venue">ICRA 2027</span> · under review</div>
-            <div class="project-links">
-              <a href="research/racer/RACER_ICRA2027.pdf" target="_blank" rel="noopener" class="project-link primary">PDF</a>
-              <a href="research/racer/racer_demo.mp4" target="_blank" rel="noopener" class="project-link">Video</a>
+      <div class="papers">
+        <!-- RACER -->
+        <article class="project" data-status="preprint">
+          <div class="project-content">
+            <div class="project-media">
+              <video controls preload="metadata" poster="research/racer/racer_poster.jpg">
+                <source src="research/racer/racer_demo.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
             </div>
-          </div>
-        </div>
-      </article>
 
-      <!-- SCAL -->
-      <article class="project">
-        <div class="project-text">
-          <h3>State-Conditional Adversarial Learning: An Off-Policy Visual Domain Transfer Method for End-to-End Imitation Learning</h3>
-          <div class="authors"><em>Yuxiang Liu</em>*, Shengfan Cao*</div>
-          <div class="meta"><span class="venue">IFAC World Congress 2026</span> · accepted, oral</div>
-          <div class="project-links">
-            <a href="https://arxiv.org/abs/2512.05335" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
-            <a href="https://github.com/Xiang-Foothill/BkgGeneralizor" target="_blank" rel="noopener" class="project-link">Code</a>
-            <button type="button" class="replay" data-replay>↻ Replay</button>
-          </div>
-        </div>
-
-        <ol class="contributions" aria-label="Main contributions">
-          <li class="contrib">
-            <span class="contrib-tag">Theory</span>
-            <div class="contrib-body">
-              <p>The target-domain imitation loss is upper-bounded by the source-domain loss plus a <strong>state-conditional latent KL divergence</strong> between the two observation models. This turns visual domain transfer into a tractable objective that needs no target-domain expert.</p>
-              <div class="formula" role="math" aria-label="J t of theta is at most J s of theta plus alpha times the square root of two gamma over one minus gamma, times L of phi plus sigma">
-                J<sub>t</sub>(θ) <span class="up">≤</span> J<sub>s</sub>(θ) <span class="up">+</span> α<span class="up">√</span><span class="rad"><span class="up">(</span>2γ / <span class="up">(</span>1 <span class="up">−</span> γ<span class="up">)</span> <span class="up">·</span> <span class="up">(</span>𝓛(φ) <span class="up">+</span> σ<span class="up">))</span></span>
+            <div class="project-text">
+              <h3>RACER: Residual-Adaptive Closed-Loop Estimation for Sampling-Based Planning in Wheeled-Quadruped Racing</h3>
+              <div class="authors"><em>Yuxiang Liu</em>*, Marla Eisman*, Lizhi Yang*, Aaron Ames, Francesco Borrelli</div>
+              <div class="meta"><span class="venue">ICRA 2027</span> · under review</div>
+              <div class="project-links">
+                <a href="https://arxiv.org/abs/2610.07409" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
+                <a href="research/racer/racer_demo.mp4" target="_blank" rel="noopener" class="project-link">Video</a>
               </div>
-              <p class="formula-note">𝓛(φ) is the state-conditional latent alignment loss that SCAL minimizes; σ is the inherent divergence between observation models.</p>
             </div>
-          </li>
-          <li class="contrib">
-            <span class="contrib-tag">Method</span>
-            <div class="contrib-body">
-              <p><strong>SCAL</strong>, an off-policy adversarial framework: a discriminator estimates the conditional KL term, and the encoder aligns latent distributions conditioned on system state using only off-policy, expert-free target data.</p>
-            </div>
-          </li>
-          <li class="contrib">
-            <span class="contrib-tag">Result</span>
-            <div class="contrib-body">
-              <p>Exceeds expert-supervised DAgger trajectory lengths across three target sampling distributions with as few as <span class="num" data-to="256">256</span> supervision-free samples, and transfers a vision-based racing policy from low to high speed.</p>
-            </div>
-          </li>
-        </ol>
-      </article>
-
-      <!-- Layer Mystery -->
-      <article class="project">
-        <div class="project-text">
-          <h3>The Layer Mystery of VLA: An Information-Theoretical Analysis of VLA Latent Interface</h3>
-          <div class="authors"><em>Yuxiang Liu</em>*, Lizhi Yang*, Fengze Xie*, Aaron Ames, Yisong Yue</div>
-          <div class="meta"><span class="venue">ICLR 2027</span> · under review</div>
-          <div class="project-links">
-            <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
-            <button type="button" class="replay" data-replay>↻ Replay</button>
           </div>
-        </div>
+        </article>
 
-        <ol class="contributions" aria-label="Main contributions">
-          <li class="contrib">
-            <span class="contrib-tag">Finding</span>
-            <div class="contrib-body">
-              <p>Fusing layers rarely helps. Across three frozen VLM backbones and two benchmarks (LIBERO, CALVIN), <span class="num" data-to="47">47</span> of <span class="num">54</span> fusion configurations underperform the best single-layer policy.</p>
+        <!-- SCAL -->
+        <article class="project" data-status="published">
+          <div class="project-text">
+            <h3>State-Conditional Adversarial Learning: An Off-Policy Visual Domain Transfer Method for End-to-End Imitation Learning</h3>
+            <div class="authors"><em>Yuxiang Liu</em>*, Shengfan Cao*</div>
+            <div class="meta"><span class="venue">IFAC World Congress 2026</span> · accepted, oral</div>
+            <div class="project-links">
+              <a href="https://arxiv.org/abs/2512.05335" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
+              <a href="https://github.com/Xiang-Foothill/BkgGeneralizor" target="_blank" rel="noopener" class="project-link">Code</a>
+              <button type="button" class="replay" data-replay>↻ Replay</button>
             </div>
-          </li>
-          <li class="contrib">
-            <span class="contrib-tag">Theory</span>
-            <div class="contrib-body">
-              <p>A <strong>reweighting equivalence</strong> between the information-bottleneck objective for action prediction and action-conditioned InfoNCE, which gives a principled score for how useful each layer is to the policy.</p>
+          </div>
+
+          <ol class="contributions" aria-label="Main contributions">
+            <li class="contrib">
+              <span class="contrib-tag">Theory</span>
+              <div class="contrib-body">
+                <p>The target-domain imitation loss is upper-bounded by the source-domain loss plus a <strong>state-conditional latent KL divergence</strong> between the two observation models. This turns visual domain transfer into a tractable objective that needs no target-domain expert.</p>
+                <div class="formula" role="math" aria-label="J t of theta is at most J s of theta plus alpha times the square root of two gamma over one minus gamma, times L of phi plus sigma">
+                  J<sub>t</sub>(θ) <span class="up">≤</span> J<sub>s</sub>(θ) <span class="up">+</span> α<span class="up">√</span><span class="rad"><span class="up">(</span>2γ / <span class="up">(</span>1 <span class="up">−</span> γ<span class="up">)</span> <span class="up">·</span> <span class="up">(</span>𝓛(φ) <span class="up">+</span> σ<span class="up">))</span></span>
+                </div>
+                <p class="formula-note">𝓛(φ) is the state-conditional latent alignment loss that SCAL minimizes; σ is the inherent divergence between observation models.</p>
+              </div>
+            </li>
+            <li class="contrib">
+              <span class="contrib-tag">Method</span>
+              <div class="contrib-body">
+                <p><strong>SCAL</strong>, an off-policy adversarial framework: a discriminator estimates the conditional KL term, and the encoder aligns latent distributions conditioned on system state using only off-policy, expert-free target data.</p>
+              </div>
+            </li>
+            <li class="contrib">
+              <span class="contrib-tag">Result</span>
+              <div class="contrib-body">
+                <p>Exceeds expert-supervised DAgger trajectory lengths across three target sampling distributions with as few as <span class="num" data-to="256">256</span> supervision-free samples, and transfers a vision-based racing policy from low to high speed.</p>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <!-- Layer Mystery -->
+        <article class="project" data-status="preprint">
+          <div class="project-text">
+            <h3>The Layer Mystery of VLA: An Information-Theoretical Analysis of VLA Latent Interface</h3>
+            <div class="authors"><em>Yuxiang Liu</em>*, Lizhi Yang*, Fengze Xie*, Aaron Ames, Yisong Yue</div>
+            <div class="meta"><span class="venue">ICLR 2027</span> · under review</div>
+            <div class="project-links">
+              <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
+              <button type="button" class="replay" data-replay>↻ Replay</button>
             </div>
-          </li>
-          <li class="contrib">
-            <span class="contrib-tag">Method</span>
-            <div class="contrib-body">
-              <p>InfoNCE-based layer selection uses <span class="num">9–33×</span> less GPU compute than exhaustive policy sweeps and cuts mean selection regret from <span class="num">17.89</span> to <span class="num" data-from="17.89" data-to="3.71" data-dec="2">3.71</span> percentage points compared with picking the deepest layer.</p>
-            </div>
-          </li>
-        </ol>
-      </article>
+          </div>
+
+          <ol class="contributions" aria-label="Main contributions">
+            <li class="contrib">
+              <span class="contrib-tag">Finding</span>
+              <div class="contrib-body">
+                <p>Fusing layers rarely helps. Across three frozen VLM backbones and two benchmarks (LIBERO, CALVIN), <span class="num" data-to="47">47</span> of <span class="num">54</span> fusion configurations underperform the best single-layer policy.</p>
+              </div>
+            </li>
+            <li class="contrib">
+              <span class="contrib-tag">Theory</span>
+              <div class="contrib-body">
+                <p>A <strong>reweighting equivalence</strong> between the information-bottleneck objective for action prediction and action-conditioned InfoNCE, which gives a principled score for how useful each layer is to the policy.</p>
+              </div>
+            </li>
+            <li class="contrib">
+              <span class="contrib-tag">Method</span>
+              <div class="contrib-body">
+                <p>InfoNCE-based layer selection uses <span class="num">9–33×</span> less GPU compute than exhaustive policy sweeps and cuts mean selection regret from <span class="num">17.89</span> to <span class="num" data-from="17.89" data-to="3.71" data-dec="2">3.71</span> percentage points compared with picking the deepest layer.</p>
+              </div>
+            </li>
+          </ol>
+        </article>
+      </div>
     </section>
 
     <!-- Projects -->
@@ -487,37 +546,57 @@
       <div class="section-head"><h2>Education</h2></div>
 
       <div class="entry">
-        <h3>University of California, Berkeley</h3>
-        <span class="when">Expected May 2027</span>
-        <div class="sub">Bachelor of Arts in Computer Science · GPA <b>3.942 / 4.0</b></div>
-        <ul class="chips" aria-label="Relevant coursework">
-          <li>Probabilistic Models (EECS 126)<b>A</b></li>
-          <li>Optimization Models (EECS 127)<b>A+</b></li>
-          <li>Model Predictive Control (ME 231A)<b>A</b></li>
-          <li>Robotics (EECS 106A)<b>A</b></li>
-          <li>Feedback Control (EE 128)<b>A+</b></li>
-          <li>Mathematical Analysis (MATH 104)<b>A+</b></li>
-        </ul>
+        <div class="entry-logo">
+          <div class="logo-tile"><img src="img/logos/cal.svg" alt=""></div>
+        </div>
+        <div class="entry-body">
+          <h3>University of California, Berkeley</h3>
+          <span class="when">Expected May 2027</span>
+          <div class="sub">Bachelor of Arts in Computer Science · GPA <b>3.942 / 4.0</b></div>
+          <ul class="chips" aria-label="Relevant coursework">
+            <li>Probabilistic Models (EECS 126)<b>A</b></li>
+            <li>Optimization Models (EECS 127)<b>A+</b></li>
+            <li>Model Predictive Control (ME 231A)<b>A</b></li>
+            <li>Robotics (EECS 106A)<b>A</b></li>
+            <li>Feedback Control (EE 128)<b>A+</b></li>
+            <li>Mathematical Analysis (MATH 104)<b>A+</b></li>
+          </ul>
+        </div>
       </div>
 
       <h3 class="subhead">Research experience</h3>
 
       <div class="entry timeline">
-        <h3>Model Predictive Control Lab, UC Berkeley</h3>
-        <span class="when">Jan 2024 – Present</span>
-        <div class="sub">Research Intern · advised by Prof. Francesco Borrelli</div>
+        <div class="entry-logo">
+          <div class="logo-tile"><img src="img/logos/mpc-lab.png" alt=""></div>
+          <div class="logo-badge"><img src="img/logos/cal.svg" alt=""></div>
+        </div>
+        <div class="entry-body">
+          <h3>Model Predictive Control Lab, UC Berkeley</h3>
+          <span class="when">Jan 2024 – Present</span>
+          <div class="sub">Research Intern · advised by Prof. Francesco Borrelli</div>
+        </div>
       </div>
 
       <div class="entry timeline">
-        <h3>AMBER Lab, California Institute of Technology</h3>
-        <span class="when">Jun 2026 – Aug 2026</span>
-        <div class="sub">Summer Research Intern · with Prof. Aaron Ames and Prof. Yisong Yue</div>
+        <div class="entry-logo">
+          <div class="logo-tile"><img src="img/logos/amber-lab-gem.png" alt=""></div>
+          <div class="logo-badge bare"><img src="img/logos/caltech-seal.svg" alt=""></div>
+        </div>
+        <div class="entry-body">
+          <h3>AMBER Lab, California Institute of Technology</h3>
+          <span class="when">Jun 2026 – Aug 2026</span>
+          <div class="sub">Summer Research Intern · with Prof. Aaron Ames and Prof. Yisong Yue</div>
+        </div>
       </div>
 
       <div class="entry timeline">
-        <h3>23rd IFAC World Congress</h3>
-        <span class="when">Aug 2026</span>
-        <div class="sub">Invited Reviewer and Oral Presenter</div>
+        <div class="entry-logo" aria-hidden="true"></div>
+        <div class="entry-body">
+          <h3>23rd IFAC World Congress</h3>
+          <span class="when">Aug 2026</span>
+          <div class="sub">Invited Reviewer and Oral Presenter</div>
+        </div>
       </div>
     </section>
   </main>
@@ -553,6 +632,37 @@
         });
       }, { rootMargin: '-45% 0px -50% 0px' });
       links.forEach((_, id) => { const s = document.getElementById(id); if (s) io.observe(s); });
+    })();
+
+    // Research filter: show all papers, only preprints, or only published ones.
+    (function () {
+      const cards = [...document.querySelectorAll('.papers .project')];
+      const buttons = document.querySelectorAll('.filter-btn');
+      buttons.forEach(btn => {
+        const f = btn.dataset.filter;
+        btn.querySelector('.count').textContent = cards.filter(c => f === 'all' || c.dataset.status === f).length;
+        btn.addEventListener('click', () => {
+          buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+          cards.forEach(c => {
+            const show = f === 'all' || c.dataset.status === f;
+            if (show && c.hidden) c.classList.add('shown'); // fade-in replays each time a card un-hides
+            c.hidden = !show;
+          });
+        });
+      });
+    })();
+
+    // Institution logos pop in one after another as the education timeline scrolls into view.
+    (function () {
+      if (!document.documentElement.classList.contains('js-reveal')) return;
+      const io = new IntersectionObserver(entries => {
+        entries.filter(e => e.isIntersecting).forEach((e, i) => {
+          e.target.style.setProperty('--i', i);
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        });
+      }, { threshold: 0.6 });
+      document.querySelectorAll('.entry-logo').forEach(el => io.observe(el));
     })();
 
     // Contributions pop in one by one when a paper card scrolls into view.
