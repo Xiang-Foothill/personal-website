@@ -255,6 +255,7 @@
     .project .authors:empty { display: none; }
     .project .meta { display: inline-block; margin-top: 0.45rem; font-family: var(--font-mono); font-size: 0.78rem; color: var(--muted); }
     .project .meta .venue { color: var(--gold); font-weight: 500; }
+    .project .meta + .meta { display: block; margin-top: 0.15rem; } /* stack a second venue line */
     .project-links { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.9rem; align-items: center; }
     .project p { margin: 0.5rem 0 0; }
 
@@ -399,6 +400,7 @@
     <section id="news">
       <div class="section-head"><h2>News</h2></div>
       <ul class="news">
+        <li><time datetime="2026-11">Nov 2026</time><span><em>The Layer Mystery of VLA</em> accepted as a poster at The Action Gap Workshop, CoRL 2026.</span></li>
         <li><time datetime="2026-09">Sep 2026</time><span><em>The Layer Mystery of VLA</em> is on <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener">arXiv</a> and under review at ICLR 2027.</span></li>
         <li><time datetime="2026-09">Sep 2026</time><span><em>RACER</em> submitted to ICRA 2027.</span></li>
         <li><time datetime="2026-08">Aug 2026</time><span>Oral presentation and invited reviewer at the 23rd IFAC World Congress in Busan. <a href="blog/ifac-2026-busan.html">Reflections from the trip</a>.</span></li>
@@ -482,6 +484,7 @@
           <div class="project-text">
             <h3>The Layer Mystery of VLA: An Information-Theoretical Analysis of VLA Latent Interface</h3>
             <div class="authors"><em>Yuxiang Liu</em>*, Lizhi Yang*, Fengze Xie*, Aaron Ames, Yisong Yue</div>
+            <div class="meta"><span class="venue">CoRL 2026 · The Action Gap Workshop</span> · accepted, poster</div>
             <div class="meta"><span class="venue">ICLR 2027</span> · under review</div>
             <div class="project-links">
               <a href="https://arxiv.org/abs/2609.36118" target="_blank" rel="noopener" class="project-link primary">arXiv</a>
