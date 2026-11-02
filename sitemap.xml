@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Submit https://xiang-foothill.github.io/personal-website/sitemap.xml in Google Search Console.
+     Add a <url> entry here whenever a new page (e.g. a blog post) is published. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://xiang-foothill.github.io/personal-website/</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://xiang-foothill.github.io/personal-website/blog/ifac-2026-busan.html</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://xiang-foothill.github.io/personal-website/blog/make-ai-your-best-assistant.html</loc>
+    <lastmod>2026-11-02</lastmod>
+  </url>
+  <url>
+    <loc>https://xiang-foothill.github.io/personal-website/cv/Yuxiang_Liu_CV.pdf</loc>
+    <lastmod>2026-09-30</lastmod>
+  </url>
+</urlset>
